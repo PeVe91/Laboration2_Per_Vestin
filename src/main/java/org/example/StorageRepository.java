@@ -7,7 +7,7 @@ public class StorageRepository<T>{
 
 
 
-    private List<T> transactions = new ArrayList<>();
+    private final List<T> transactions = new ArrayList<>();
 
     public void add(T transaction) {
         transactions.add(transaction);
