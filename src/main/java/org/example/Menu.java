@@ -2,7 +2,7 @@ package org.example;
 
 public class Menu {
 
-    StorageRepository<Transaction> repository = new StorageRepository<>();
+    Repository<Transaction> repository = new Repository<>();
 
     static void main() {
 

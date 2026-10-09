@@ -3,7 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageRepository<T>{
+public class Repository<T>{
 
     private final List<T> transactions = new ArrayList<>();
 
