@@ -5,8 +5,6 @@ import java.util.List;
 
 public class StorageRepository<T>{
 
-
-
     private final List<T> transactions = new ArrayList<>();
 
     public void add(T transaction) {

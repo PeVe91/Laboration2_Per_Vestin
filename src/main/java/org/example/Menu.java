@@ -12,13 +12,17 @@ public class Menu {
 
     static void printMenu() {
         System.out.println("""
-                Budgethanteraren ================
-                1. Add transaction
-                2. Display all transactions
-                3. Display balance and category summaries
-                4. Filter transactions
-                5. Save to file
-                e. Quit""");
+                 _______________________________
+                |       Budget Service          |
+                |-------------------------------|
+                |   1. Add transaction          |
+                |   2. Display all transactions |
+                |   3. Display balance and      |
+                |      category summaries       |
+                |   4. Filter transactions      |
+                |   5. Save to file             |
+                |   e. Quit                     |
+                |_______________________________|""");
     }
 
 }
