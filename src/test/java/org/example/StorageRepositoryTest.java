@@ -13,6 +13,13 @@ class StorageRepositoryTest {
     @Test
     @DisplayName("Should add transaction to list.")
     void addShouldStoreTransactionInList() {
+        Transaction transaction = new Transaction(EXPENSE, LocalDateTime.now(),
+                "Tanka", 750.00);
+        Repository<Transaction> repository = new Repository<>();
+
+        repository.add(transaction);
+
+        assertEquals(1, repository.getTransactionCount());
     }
     @DisplayName("Should return *all* transactions from list.")
     @Test
