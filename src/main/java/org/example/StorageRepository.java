@@ -1,8 +1,22 @@
 package org.example;
 
-import java.time.LocalDateTime;
-import static org.example.TransactionType.EXPENSE;
-import static org.example.TransactionType.INCOME;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StorageRepository<T>{
+
+
+
+    private List<T> transactions = new ArrayList<>();
+
+    public void add(T transaction) {
+        transactions.add(transaction);
+    }
+    public List<T> getAll() {
+        return new ArrayList<>(transactions);
+    }
+    public int getTransactionCount() {
+        return transactions.size();
+    }
+
 }
