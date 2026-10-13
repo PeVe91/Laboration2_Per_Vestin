@@ -1,5 +1,7 @@
 package org.example;
 
+import java.time.LocalDateTime;
+
 public class Menu {
 
 
@@ -15,9 +17,8 @@ public class Menu {
                 case "1":
                     handleAddTransaction(repository);
                 default:
-                    System.exit(0);
+                    isRunning = false;
             }
-
 
         }
 
@@ -25,10 +26,43 @@ public class Menu {
 
     private static void handleAddTransaction(Repository<Transaction> repository) {
 
-        String transTypeInput = IO.readln().trim();
-        TransactionType transType = TransactionType.valueOf(transTypeInput);
+        TransactionType type;
+        do {
+            String transTypeInput = IO.readln("Income or expense: ").trim().toUpperCase();
+            try {
+                type = TransactionType.valueOf(transTypeInput);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid transaction type");
+            }
+        } while (true);
 
+        String category;
+        do {
+            category = IO.readln("Category: ").trim().toLowerCase();
 
+            if (category.isBlank()) {
+                System.out.println("Invalid category");
+            }
+        } while (category.isBlank());
+
+        double amount;
+        do {
+            try {
+                amount = Double.parseDouble(IO.readln("Amount: "));
+                if (amount <= 0) {
+                    throw new InvalidTransactionException("Amount must be positive");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            } catch (InvalidTransactionException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+
+        Transaction transaction = new Transaction(type,  category, amount);
+        repository.add(transaction);
     }
 
     static void printMenu() {
