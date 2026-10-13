@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.Map;
+
+import static org.example.BudgetService.getCategorySummaries;
 import static org.example.BudgetService.getTotalBalance;
 
 public class Menu {
@@ -79,7 +82,17 @@ public class Menu {
     }
 
     private static void handleDisplayBalanceAndCategorySummaries(Repository<Transaction> repository) {
-        System.out.println(getTotalBalance(repository.getAll()));
+        System.out.printf("Total balance: %.2f kr%n",
+                getTotalBalance(repository.getAll()));
+        System.out.println();
+
+        Map<String, Double> categorySummaries =
+                getCategorySummaries(repository.getAll());
+
+        categorySummaries.forEach
+                ((key, value) -> System.out.printf
+                        ("%s: %.2f kr%n", key, value));
+
     }
 
     static void printMenu() {
