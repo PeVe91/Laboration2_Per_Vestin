@@ -1,6 +1,6 @@
 package org.example;
 
-import java.time.LocalDateTime;
+import static org.example.BudgetService.getTotalBalance;
 
 public class Menu {
 
@@ -20,6 +20,8 @@ public class Menu {
                 case "2":
                     handleDisplayAllTransactions(repository);
                     break;
+                case "3":
+                    handleDisplayBalanceAndCategorySummaries(repository);
                 case "e":
                     isRunning = false;
                     break;
@@ -72,8 +74,12 @@ public class Menu {
         repository.add(transaction);
     }
 
-    public static void handleDisplayAllTransactions(Repository<Transaction> repository) {
+    private static void handleDisplayAllTransactions(Repository<Transaction> repository) {
         repository.getAll().forEach(System.out::println);
+    }
+
+    private static void handleDisplayBalanceAndCategorySummaries(Repository<Transaction> repository) {
+        System.out.println(getTotalBalance(repository.getAll()));
     }
 
     static void printMenu() {
