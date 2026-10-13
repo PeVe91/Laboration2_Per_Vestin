@@ -16,8 +16,15 @@ public class Menu {
             switch (choice) {
                 case "1":
                     handleAddTransaction(repository);
-                default:
+                    break;
+                case "2":
+                    handleDisplayAllTransactions(repository);
+                    break;
+                case "e":
                     isRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
             }
 
         }
@@ -49,7 +56,7 @@ public class Menu {
         double amount;
         do {
             try {
-                amount = Double.parseDouble(IO.readln("Amount: "));
+                amount = Double.parseDouble(IO.readln("Amount: ").replaceAll("\\s+", ""));
                 if (amount <= 0) {
                     throw new InvalidTransactionException("Amount must be positive");
                 }
@@ -63,6 +70,10 @@ public class Menu {
 
         Transaction transaction = new Transaction(type,  category, amount);
         repository.add(transaction);
+    }
+
+    public static void handleDisplayAllTransactions(Repository<Transaction> repository) {
+        repository.getAll().forEach(System.out::println);
     }
 
     static void printMenu() {
