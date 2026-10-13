@@ -1,17 +1,23 @@
 package org.example;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BudgetService {
 
     public static double getTotalBalance(List<Transaction> transactions) {
-        double total = 0.0;
+        return transactions.stream()
+                .mapToDouble(transaction ->
+                        transaction.amount() * transaction.type()
+                                .getMultiplier()).sum();
+    }
 
-        for (Transaction transaction : transactions) {
-            total += transaction.amount() * transaction.type().getMultiplier();
-        }
-
-        return total;
+    public static Map<String, Double> getCategorySummaries(List<Transaction> transactions) {
+        return transactions.stream().collect(Collectors.groupingBy
+                (Transaction::category, Collectors.summingDouble(
+                                transaction -> transaction.amount()
+                                        * transaction.type().getMultiplier())));
     }
 
 }
