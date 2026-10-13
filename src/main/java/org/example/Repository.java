@@ -17,9 +17,4 @@ public class Repository<T>{
         return new ArrayList<>(transactions);
     }
 
-    public int getTransactionCount() {
-        return transactions.size();
-    }
-
-
 }

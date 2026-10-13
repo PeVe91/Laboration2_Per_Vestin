@@ -9,6 +9,7 @@ public class Menu {
 
 
     static void main() {
+
         Repository<Transaction> repository = new Repository<>();
         boolean isRunning = true;
 

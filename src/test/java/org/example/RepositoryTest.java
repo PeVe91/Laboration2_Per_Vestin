@@ -20,7 +20,7 @@ class RepositoryTest {
 
         repository.add(transaction);
 
-        assertEquals(1, repository.getTransactionCount());
+        assertEquals(1, repository.getAll().size());
     }
     @DisplayName("Should return *all* transactions from list.")
     @Test
@@ -58,7 +58,7 @@ class RepositoryTest {
 
         List<Transaction> temp = repository.getAll();
         temp.clear();
-        assertEquals(3, repository.getTransactionCount());
+        assertEquals(3, repository.getAll().size());
     }
 
 }
