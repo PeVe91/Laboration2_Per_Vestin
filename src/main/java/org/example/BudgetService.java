@@ -13,11 +13,16 @@ public class BudgetService {
                                 .getMultiplier()).sum();
     }
 
-    public static Map<String, Double> getCategorySummaries(List<Transaction> transactions) {
-        return transactions.stream().collect(Collectors.groupingBy
-                (Transaction::category, Collectors.summingDouble(
-                                transaction -> transaction.amount()
-                                        * transaction.type().getMultiplier())));
+    public static Map<String, Double>
+    getCategorySummaries(List<Transaction> transactions) {
+        return transactions.stream()
+                .collect(Collectors.groupingBy
+                (Transaction::category,
+                        Collectors.summingDouble(
+                                transaction ->
+                                        transaction.amount()
+                                        * transaction.type()
+                                                .getMultiplier())));
     }
 
 }

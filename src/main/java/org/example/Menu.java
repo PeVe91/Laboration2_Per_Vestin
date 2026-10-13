@@ -62,7 +62,9 @@ public class Menu {
         double amount;
         do {
             try {
-                amount = Double.parseDouble(IO.readln("Amount: ").replaceAll("\\s+", ""));
+                amount = Double.parseDouble(IO.readln("Amount: ")
+                        .replaceAll("\\s+", "")
+                        .replace(",", "."));
                 if (amount <= 0) {
                     throw new InvalidTransactionException("Amount must be positive");
                 }
