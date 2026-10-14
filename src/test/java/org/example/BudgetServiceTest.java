@@ -45,6 +45,6 @@ class BudgetServiceTest {
 
         assertEquals(-300, result.get("Mat"));
         assertEquals(25000, result.get("Lön"));
-
+        //Testar GPG-signering
     }
 }
