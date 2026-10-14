@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static org.example.BudgetService.getCategorySummaries;
 import static org.example.BudgetService.getTotalBalance;
 import static org.example.TransactionType.INCOME;
 import static org.example.TransactionType.EXPENSE;
@@ -26,10 +28,23 @@ class BudgetServiceTest {
 
         assertEquals(1999.10, getTotalBalance(transactions));
 
-
     }
 
     @Test
-    void getCategorySummaries() {
+    @DisplayName("Transactions in the same category should be combined")
+    void transactionsInSameCategoryShouldBeCombined() {
+        List<Transaction> transactions = List.of(
+                new Transaction(EXPENSE, "Mat", 200),
+                new Transaction(EXPENSE, "Mat", 100),
+                new Transaction(INCOME, "Lön", 25000)
+        );
+
+        Map<String, Double> result = getCategorySummaries(transactions);
+
+        assertEquals(2, result.size());
+
+        assertEquals(-300, result.get("Mat"));
+        assertEquals(25000, result.get("Lön"));
+
     }
 }
