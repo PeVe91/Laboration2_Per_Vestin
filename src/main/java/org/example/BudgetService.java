@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public class BudgetService {
 
+//--------------------GET TOTAL BALANCE (DOUBLE)--------------------
     public static double getTotalBalance(List<Transaction> transactions) {
         return transactions.stream()
                 .mapToDouble(transaction ->
@@ -13,6 +14,7 @@ public class BudgetService {
                                 .getMultiplier()).sum();
     }
 
+//--------------------SUMMARIZE CATEGORIES (MAP<STRING, DOUBLE>)--------------------
     public static Map<String, Double>
     getCategorySummaries(List<Transaction> transactions) {
         return transactions.stream()

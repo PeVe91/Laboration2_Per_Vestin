@@ -7,7 +7,7 @@ import static org.example.BudgetService.getTotalBalance;
 
 public class Menu {
 
-
+//--------------------MAIN--------------------
     static void main() {
 
         Repository<Transaction> repository = new Repository<>();
@@ -36,8 +36,8 @@ public class Menu {
         }
 
     }
-    //--------------------HANDLERS--------------------
 
+//--------------------HANDLERS--------------------
     private static void handleAddTransaction(Repository<Transaction> repository) {
 
         TransactionType type = readType();
@@ -71,8 +71,7 @@ public class Menu {
     private static void  handleFilterTransactions(Repository<Transaction> repository) {
     }
 
-    //--------------------INPUT-READERS--------------------
-
+//--------------------INPUT-READERS--------------------
     private static double readAmount() {
         double amount;
         do {
@@ -120,8 +119,7 @@ public class Menu {
         } while (true);
     }
 
-    //--------------------MENU-PRINTER--------------------
-
+//--------------------MENU-PRINTER--------------------
     static void printMenu() {
         System.out.println("""
                 \n _______________________________
