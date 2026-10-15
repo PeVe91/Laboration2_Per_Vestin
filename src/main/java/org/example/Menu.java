@@ -36,45 +36,15 @@ public class Menu {
         }
 
     }
+    //--------------------HANDLERS--------------------
 
     private static void handleAddTransaction(Repository<Transaction> repository) {
 
-        TransactionType type;
-        do {
-            String transTypeInput = IO.readln("Income or expense: ").trim().toUpperCase();
-            try {
-                type = TransactionType.valueOf(transTypeInput);
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid transaction type");
-            }
-        } while (true);
+        TransactionType type = readType();
 
-        String category;
-        do {
-            category = IO.readln("Category: ").trim().toLowerCase();
+        String category = readCategory();
 
-            if (category.isBlank()) {
-                System.out.println("Invalid category");
-            }
-        } while (category.isBlank());
-
-        double amount;
-        do {
-            try {
-                amount = Double.parseDouble(IO.readln("Amount: ")
-                        .replaceAll("\\s+", "")
-                        .replace(",", "."));
-                if (amount <= 0) {
-                    throw new InvalidTransactionException("Amount must be positive");
-                }
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
-            } catch (InvalidTransactionException e) {
-                System.out.println(e.getMessage());
-            }
-        } while (true);
+        double amount = readAmount();
 
         Transaction transaction = new Transaction(type,  category, amount);
         repository.add(transaction);
@@ -97,6 +67,59 @@ public class Menu {
                         ("%s: %.2f kr%n", key, value));
 
     }
+
+    private static void  handleFilterTransactions(Repository<Transaction> repository) {
+    }
+
+    //--------------------INPUT-READERS--------------------
+
+    private static double readAmount() {
+        double amount;
+        do {
+            try {
+                amount = Double.parseDouble(IO.readln("Amount: ")
+                        .replaceAll("\\s+", "")
+                        .replace(",", "."));
+                if (amount <= 0) {
+                    throw new InvalidTransactionException("Amount must be positive");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            } catch (InvalidTransactionException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+        return amount;
+    }
+
+    private static String readCategory() {
+        String category;
+        do {
+            category = IO.readln("Category: ").trim().toLowerCase();
+
+            if (category.isBlank()) {
+                System.out.println("Invalid category");
+            }
+        } while (category.isBlank());
+        return category;
+    }
+
+    private static TransactionType readType() {
+        TransactionType type;
+        do {
+            String transTypeInput = IO.readln("Income or expense: ").trim().toUpperCase();
+            try {
+                type = TransactionType.valueOf(transTypeInput);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid transaction type");
+            }
+        } while (true);
+        return type;
+    }
+
+    //--------------------MENU-PRINTER--------------------
 
     static void printMenu() {
         System.out.println("""
