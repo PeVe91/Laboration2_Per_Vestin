@@ -106,17 +106,18 @@ public class Menu {
     }
 
     private static TransactionType readType() {
-        TransactionType type;
         do {
-            String transTypeInput = IO.readln("Income or expense: ").trim().toUpperCase();
-            try {
-                type = TransactionType.valueOf(transTypeInput);
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid transaction type");
+            String input = IO.readln("Choose transaction type:\n1. Income\n2. Expense\n").trim();
+
+            switch (input) {
+                case "1":
+                    return TransactionType.INCOME;
+                case "2":
+                    return TransactionType.EXPENSE;
+                default:
+                    System.out.println("Invalid transaction type");
             }
         } while (true);
-        return type;
     }
 
     //--------------------MENU-PRINTER--------------------
