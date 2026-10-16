@@ -69,6 +69,24 @@ public class Menu {
     }
 
     private static void  handleFilterTransactions(Repository<Transaction> repository) {
+
+        do {
+            String choice = IO.readln("Filter transactions by:\n1. Category\n2. Type\n").trim();
+
+            switch (choice) {
+                case "1":
+                    handleFilterCategory(repository);
+                case "2":
+                    handleFilterType(repository);
+                default:
+                    System.out.println("Invalid choice");
+            }
+        } while (true);
+    }
+
+    private static void handleFilterCategory(Repository<Transaction> repository) {
+    }
+    private static void handleFilterType(Repository<Transaction> repository) {
     }
 
 //--------------------INPUT-READERS--------------------
