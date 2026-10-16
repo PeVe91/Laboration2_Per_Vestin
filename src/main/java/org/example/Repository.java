@@ -13,7 +13,7 @@ public class Repository<T>{
         transactions.add(transaction);
     }
 
-//--------------------GET ALL TRANSACTIONS (ARRAYLIST)--------------------
+//--------------------GET ALL TRANSACTIONS--------------------
     public List<T> getAll() {
         return new ArrayList<>(transactions);
     }

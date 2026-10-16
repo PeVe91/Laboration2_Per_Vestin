@@ -1,9 +1,10 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import static org.example.BudgetService.getCategorySummaries;
-import static org.example.BudgetService.getTotalBalance;
+import static org.example.BudgetService.*;
 
 public class Menu {
 
@@ -26,6 +27,10 @@ public class Menu {
                     break;
                 case "3":
                     handleDisplayBalanceAndCategorySummaries(repository);
+                    break;
+                case "4":
+                    handleFilterTransactions(repository);
+                    break;
                 case "e":
                     isRunning = false;
                     break;
@@ -48,6 +53,8 @@ public class Menu {
 
         Transaction transaction = new Transaction(type,  category, amount);
         repository.add(transaction);
+
+        System.out.println("\nTransaction added successfully!");
     }
 
     private static void handleDisplayAllTransactions(Repository<Transaction> repository) {
@@ -68,25 +75,45 @@ public class Menu {
 
     }
 
-    private static void  handleFilterTransactions(Repository<Transaction> repository) {
-
+    private static void handleFilterTransactions(Repository<Transaction> repository) {
+        String choice;
         do {
-            String choice = IO.readln("Filter transactions by:\n1. Category\n2. Type\n").trim();
+            choice = IO.readln("Filter transactions by:\n1. Category\n2. Type\n").trim();
 
             switch (choice) {
                 case "1":
-                    handleFilterCategory(repository);
+                    handleFilterByCategory(repository);
+                    break;
                 case "2":
-                    handleFilterType(repository);
+                    handleFilterByType(repository);
+                    break;
                 default:
                     System.out.println("Invalid choice");
             }
-        } while (true);
+        } while (!choice.equals("1") && !choice.equals("2"));
     }
 
-    private static void handleFilterCategory(Repository<Transaction> repository) {
+    private static void handleFilterByCategory(Repository<Transaction> repository) {
+        String category = readCategory();
+
+        List<Transaction> filteredTransactions = filterByCategory(repository.getAll(), category);
+        if (filteredTransactions.isEmpty()) {
+            System.out.println("Category does not exist");
+        } else {
+            filteredTransactions.forEach(System.out::println);
+        }
     }
-    private static void handleFilterType(Repository<Transaction> repository) {
+
+    private static void handleFilterByType(Repository<Transaction> repository) {
+        TransactionType type = readType();
+
+        List<Transaction> filteredTransactions = filterByType(repository.getAll(), type);
+
+        if (filteredTransactions.isEmpty()) {
+            System.out.println("There are no transactions of this type");
+        } else {
+            filteredTransactions.forEach(System.out::println);
+        }
     }
 
 //--------------------INPUT-READERS--------------------
