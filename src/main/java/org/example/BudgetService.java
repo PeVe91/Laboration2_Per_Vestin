@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 public class BudgetService {
 
 //--------------------GET TOTAL BALANCE--------------------
-    public static double getTotalBalance(List<Transaction> transactions) {
+    public static double getTotalBalance
+    (List<Transaction> transactions) {
+
         return transactions.stream()
                 .mapToDouble(transaction ->
                         transaction.amount() * transaction.type()
