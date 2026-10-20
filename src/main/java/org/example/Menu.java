@@ -1,6 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +30,9 @@ public class Menu {
                     break;
                 case "4":
                     handleFilterTransactions(repository);
+                    break;
+                case "5":
+                    handleSaveToFile(repository);
                     break;
                 case "e":
                     isRunning = false;
@@ -115,6 +118,20 @@ public class Menu {
             filteredTransactions.forEach(System.out::println);
         }
     }
+
+    private static void handleSaveToFile(Repository<Transaction> repository) {
+
+        CsvRepository csvRepository = new CsvRepository();
+
+        try {
+            csvRepository.save(repository.getAll());
+            System.out.println("Transactions saved successfully!");
+        } catch (IOException e) {
+            System.out.println("Could not save transactions: "
+                    + e.getMessage());
+        }
+    }
+
 
 //--------------------INPUT-READERS--------------------
     private static double readAmount() {
