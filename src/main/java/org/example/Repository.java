@@ -17,5 +17,9 @@ public class Repository<T>{
     public List<T> getAll() {
         return new ArrayList<>(transactions);
     }
+//--------------------CLEAR TRANSACTIONS FROM LIST--------------------
+    public void clear() {
+        transactions.clear();
+    }
 
 }

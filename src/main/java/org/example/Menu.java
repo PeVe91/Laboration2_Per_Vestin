@@ -34,6 +34,9 @@ public class Menu {
                 case "5":
                     handleSaveToFile(repository);
                     break;
+                case "6":
+                    handleLoadFile(repository);
+                    break;
                 case "e":
                     isRunning = false;
                     break;
@@ -132,6 +135,28 @@ public class Menu {
         }
     }
 
+    private static void handleLoadFile(Repository<Transaction> repository) {
+        CsvRepository csvRepository = new CsvRepository();
+
+        try {
+            List<Transaction> loadedList = csvRepository.load();
+            repository.clear();
+            if (loadedList.isEmpty()){
+                System.out.println("No transactions found");
+            } else {
+                for (Transaction transaction : loadedList) {
+                    repository.add(transaction);
+                }
+                System.out.println("Transactions loaded successfully!");
+                for (Transaction transaction : repository.getAll()) {
+                    System.out.println(transaction);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Could not load transactions: " + e.getMessage());
+        }
+    }
+
 
 //--------------------INPUT-READERS--------------------
     private static double readAmount() {
@@ -193,6 +218,7 @@ public class Menu {
                 |      category summaries       |
                 |   4. Filter transactions      |
                 |   5. Save to file             |
+                |   6. Load file                |
                 |   e. Quit                     |
                 |_______________________________|\n\n""");
     }
