@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CsvRepository {
 
-    public void save(List<Transaction> transactions) throws IOException {
+    public static void save(List<Transaction> transactions) throws IOException {
 
         List<String> transactionsString = transactions.stream()
                 .map(transaction -> transaction.dateTime() + ","
@@ -26,7 +26,8 @@ public class CsvRepository {
         Files.write(filePath, transactionsString);
     }
 
-    public List<Transaction> load() throws IOException {
+    public static List<Transaction> load()
+            throws IOException, FileFormatException {
         Path homePath = Path.of(System.getProperty("user.home"));
         Path savePath = homePath.resolve("budgethanteraren");
         Path filePath = savePath.resolve("transactions.csv");
@@ -34,16 +35,40 @@ public class CsvRepository {
         List<String> lines = Files.readAllLines(filePath);
         List<Transaction> transactions = new ArrayList<>();
 
-        for (String line : lines) {
-            String[] lineArray = line.split(",");
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            if (line.isBlank()) {
+                continue;
+            }
+            String[] lineArray = line.split(",", -1);
 
-            LocalDateTime dateTime = LocalDateTime.parse(lineArray[0]);
-            TransactionType type = TransactionType.valueOf(lineArray[1]);
-            String category = lineArray[2];
-            double amount = Double.parseDouble(lineArray[3]);
+            if (lineArray.length != 4) {
+                throw new FileFormatException(
+                        "Transaction " + (i + 1) + " does not have all required parameters.");
+            }
 
-            Transaction transaction = new Transaction(dateTime, type, category, amount);
-            transactions.add(transaction);
+            try {
+                LocalDateTime dateTime = LocalDateTime.parse(lineArray[0]);
+                TransactionType type = TransactionType.valueOf(lineArray[1]);
+                String category = lineArray[2];
+                double amount = Double.parseDouble(lineArray[3]);
+
+                if (category.isBlank() || amount <= 0) {
+                    throw new FileFormatException(
+                            "Transaction " + (i + 1) +
+                                    " contains invalid category or amount.");
+                }
+
+                Transaction transaction =
+                        new Transaction(dateTime, type, category, amount);
+                transactions.add(transaction);
+
+            } catch (java.time.format.DateTimeParseException
+                     | IllegalArgumentException e) {
+                throw new FileFormatException(
+                        "Transaction " + (i + 1) +
+                                " contains invalid date, type or amount.");
+            }
         }
         return transactions;
     }

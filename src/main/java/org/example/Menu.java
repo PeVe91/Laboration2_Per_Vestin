@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.example.BudgetService.*;
+import static org.example.CsvRepository.load;
+import static org.example.CsvRepository.save;
 
 public class Menu {
 
@@ -124,10 +126,8 @@ public class Menu {
 
     private static void handleSaveToFile(Repository<Transaction> repository) {
 
-        CsvRepository csvRepository = new CsvRepository();
-
         try {
-            csvRepository.save(repository.getAll());
+            save(repository.getAll());
             System.out.println("Transactions saved successfully!");
         } catch (IOException e) {
             System.out.println("Could not save transactions: "
@@ -136,10 +136,9 @@ public class Menu {
     }
 
     private static void handleLoadFile(Repository<Transaction> repository) {
-        CsvRepository csvRepository = new CsvRepository();
 
         try {
-            List<Transaction> loadedList = csvRepository.load();
+            List<Transaction> loadedList = load();
             repository.clear();
             if (loadedList.isEmpty()){
                 System.out.println("No transactions found");
@@ -154,7 +153,10 @@ public class Menu {
             }
         } catch (IOException e) {
             System.out.println("Could not load transactions: " + e.getMessage());
+        } catch (FileFormatException e) {
+            System.out.println("Invalid CSV file: " + e.getMessage());
         }
+
     }
 
 
