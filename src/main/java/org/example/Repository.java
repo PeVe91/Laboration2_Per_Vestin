@@ -2,8 +2,12 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Repository<T>{
+
+    private static final Logger logger =
+            Logger.getLogger(Repository.class.getName());
 
     private final List<T> transactions = new ArrayList<>();
 
@@ -11,6 +15,7 @@ public class Repository<T>{
 //--------------------ADD TRANSACTION--------------------
     public void add(T transaction) {
         transactions.add(transaction);
+        logger.info("Transaction added to repository");
     }
 
 //--------------------GET ALL TRANSACTIONS--------------------
@@ -20,6 +25,7 @@ public class Repository<T>{
 //--------------------CLEAR TRANSACTIONS FROM LIST--------------------
     public void clear() {
         transactions.clear();
+        logger.info("All transactions cleared from repository");
     }
 
 }
