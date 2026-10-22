@@ -39,6 +39,10 @@ class RepositoryTest {
         repository.add(transaction3);
 
         assertEquals(3, repository.getAll().size());
+
+        assertTrue(repository.getAll().contains(transaction));
+        assertTrue(repository.getAll().contains(transaction2));
+        assertTrue(repository.getAll().contains(transaction3));
     }
     @DisplayName("Should return copy of list instead of original.")
     @Test
@@ -59,6 +63,18 @@ class RepositoryTest {
         List<Transaction> temp = repository.getAll();
         temp.clear();
         assertEquals(3, repository.getAll().size());
+    }
+
+    @Test
+    @DisplayName("Original list should be cleared")
+    void clearShouldRemoveAllTransactionsFromOriginalList() {
+        Repository<Transaction> repository = new Repository<>();
+        Transaction transaction = new Transaction(EXPENSE, "Tanka", 750.0);
+        repository.add(transaction);
+
+        repository.clear();
+
+        assertTrue(repository.getAll().isEmpty());
     }
 
 }

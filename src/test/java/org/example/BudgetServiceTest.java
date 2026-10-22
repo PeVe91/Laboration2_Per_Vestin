@@ -25,7 +25,7 @@ class BudgetServiceTest {
                 new Transaction(INCOME, "Lön", 1000)
         );
 
-        assertEquals(1999.10, getTotalBalance(transactions));
+        assertEquals(1999.10, getTotalBalance(transactions), 0.001);
 
     }
 

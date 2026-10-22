@@ -9,7 +9,8 @@ import java.util.List;
 
 public class CsvRepository {
 
-    public static void save(List<Transaction> transactions) throws IOException {
+    public static void save(List<Transaction> transactions)
+            throws IOException {
 
         List<String> transactionsString = transactions.stream()
                 .map(transaction -> transaction.dateTime() + ","
@@ -37,9 +38,6 @@ public class CsvRepository {
 
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            if (line.isBlank()) {
-                continue;
-            }
             String[] lineArray = line.split(",", -1);
 
             if (lineArray.length != 4) {

@@ -3,12 +3,16 @@ package org.example;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static org.example.BudgetService.*;
 import static org.example.CsvRepository.load;
 import static org.example.CsvRepository.save;
 
 public class Menu {
+
+    private static final Logger logger =
+            Logger.getLogger(Menu.class.getName());
 
 //--------------------MAIN--------------------
     static void main() {
@@ -44,6 +48,7 @@ public class Menu {
                     break;
                 default:
                     System.out.println("Invalid choice");
+                    logger.warning("Invalid menu choice");
             }
 
         }
@@ -63,23 +68,34 @@ public class Menu {
         repository.add(transaction);
 
         System.out.println("\nTransaction added successfully!");
+        logger.info("Transaction added successfully");
     }
 
     private static void handleDisplayAllTransactions(Repository<Transaction> repository) {
-        repository.getAll().forEach(System.out::println);
+        if (repository.getAll().isEmpty()) {
+            System.out.println("No transactions found");
+            logger.info("No transactions found");
+        } else {
+            repository.getAll().forEach(System.out::println);
+        }
     }
 
     private static void handleDisplayBalanceAndCategorySummaries(Repository<Transaction> repository) {
         System.out.printf("Total balance: %.2f kr%n",
                 getTotalBalance(repository.getAll()));
-        System.out.println();
 
         Map<String, Double> categorySummaries =
                 getCategorySummaries(repository.getAll());
-
-        categorySummaries.forEach
-                ((key, value) -> System.out.printf
-                        ("%s: %.2f kr%n", key, value));
+        if  (categorySummaries.isEmpty()) {
+            System.out.println();
+            System.out.println("No transactions found");
+            logger.info("No transactions found");
+        } else {
+            System.out.println();
+            categorySummaries.forEach
+                    ((key, value) -> System.out.printf
+                            ("%s: %.2f kr%n", key, value));
+        }
 
     }
 
@@ -97,6 +113,7 @@ public class Menu {
                     break;
                 default:
                     System.out.println("Invalid choice");
+                    logger.warning("Invalid menu choice");
             }
         } while (!choice.equals("1") && !choice.equals("2"));
     }
@@ -107,6 +124,7 @@ public class Menu {
         List<Transaction> filteredTransactions = filterByCategory(repository.getAll(), category);
         if (filteredTransactions.isEmpty()) {
             System.out.println("Category does not exist");
+            logger.info("Category does not exist");
         } else {
             filteredTransactions.forEach(System.out::println);
         }
@@ -119,6 +137,7 @@ public class Menu {
 
         if (filteredTransactions.isEmpty()) {
             System.out.println("There are no transactions of this type");
+            logger.info("There are no transactions of this type");
         } else {
             filteredTransactions.forEach(System.out::println);
         }
@@ -129,9 +148,11 @@ public class Menu {
         try {
             save(repository.getAll());
             System.out.println("Transactions saved successfully!");
+            logger.info("Transactions saved successfully");
         } catch (IOException e) {
             System.out.println("Could not save transactions: "
                     + e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 
@@ -142,19 +163,23 @@ public class Menu {
             repository.clear();
             if (loadedList.isEmpty()){
                 System.out.println("No transactions found");
+                logger.info("No transactions found");
             } else {
                 for (Transaction transaction : loadedList) {
                     repository.add(transaction);
                 }
                 System.out.println("Transactions loaded successfully!");
+                logger.info("Transactions loaded successfully");
                 for (Transaction transaction : repository.getAll()) {
                     System.out.println(transaction);
                 }
             }
         } catch (IOException e) {
             System.out.println("Could not load transactions: " + e.getMessage());
+            logger.severe(e.getMessage());
         } catch (FileFormatException e) {
             System.out.println("Invalid CSV file: " + e.getMessage());
+            logger.severe(e.getMessage());
         }
 
     }
@@ -174,8 +199,10 @@ public class Menu {
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number.");
+                logger.warning("Invalid number.");
             } catch (InvalidTransactionException e) {
                 System.out.println(e.getMessage());
+                logger.warning("Negative amount or zero");
             }
         } while (true);
         return amount;
@@ -188,6 +215,7 @@ public class Menu {
 
             if (category.isBlank()) {
                 System.out.println("Invalid category");
+                    logger.info("Invalid category");
             }
         } while (category.isBlank());
         return category;
@@ -204,6 +232,7 @@ public class Menu {
                     return TransactionType.EXPENSE;
                 default:
                     System.out.println("Invalid transaction type");
+                    logger.warning("Invalid transaction type");
             }
         } while (true);
     }
