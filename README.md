@@ -33,7 +33,7 @@ Hanterar ogiltiga transaktionsvärden.
 Extendar Exception eftersom det är en checked exception som måste fångas eller deklareras med
 throws. Hanterar felaktigt format på CSV-filen vid inläsning. 
 
-###TransactionType (enum):
+### TransactionType (enum):
 Skiljer på inkomst och utgift. Här valde jag väldigt tidigt att gardera mig mot tankevurpor i
 framtida metoder. Istället för att behöva komma ihåg att på alla olika ställen berätta för metoder att EXPENSE ska behandlas
 som något negativt så lade jag till en egen konstruktor med en multiplier som int-parameter som är 1 för INCOME och -1 för EXPENSE.
