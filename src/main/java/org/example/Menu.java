@@ -20,6 +20,8 @@ public class Menu {
         Repository<Transaction> repository = new Repository<>();
         boolean isRunning = true;
 
+        logger.info("Program initialised");
+
         while (isRunning) {
             printMenu();
             String choice = IO.readln().trim();
@@ -44,6 +46,7 @@ public class Menu {
                     handleLoadFile(repository);
                     break;
                 case "e":
+                    logger.info("Program terminated by user");
                     isRunning = false;
                     break;
                 default:
